@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Product Multilingual Search Pro V3 - Eagle ERP</title>
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #0B3D91, #1C1C3C);
+    color: #fff;
+    line-height: 1.7;
+}
+
+/* Elegant Container */
+.container {
+    width: 85%;
+    margin: auto;
+    padding: 40px 0;
+}
+
+/* Header */
+header {
+    text-align: center;
+    padding: 60px 20px;
+    background: linear-gradient(135deg, #0B3D91, #142850);
+    box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+}
+
+header h1 {
+    font-size: 42px;
+    font-weight: 700;
+    background: linear-gradient(90deg, #FFD700, #B8860B);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: glow 3s infinite alternate;
+}
+
+header h2 {
+    font-weight: 300;
+    margin-top: 10px;
+    color: #ddd;
+}
+
+@keyframes glow {
+    from { text-shadow: 0 0 10px #FFD700; }
+    to { text-shadow: 0 0 25px #FFD700; }
+}
+
+/* Navigation */
+nav {
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(10px);
+    padding: 15px;
+    text-align: center;
+}
+
+nav a {
+    color: #FFD700;
+    margin: 0 12px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+nav a:hover {
+    color: #fff;
+    border-bottom: 2px solid #FFD700;
+}
+
+/* Section Card */
+.section {
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(12px);
+    padding: 30px;
+    margin: 30px 0;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    animation: fadeInUp 1s ease;
+}
+
+.section:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+}
+
+.section h2 {
+    color: #FFD700;
+    margin-bottom: 15px;
+}
+
+/* Table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+th {
+    background: rgba(255,215,0,0.2);
+    color: #FFD700;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 40px 20px;
+    background: #0B3D91;
+    margin-top: 50px;
+    color: #ccc;
+}
+
+footer a {
+    color: #FFD700;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+/* Animation */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+ul, ol {
+    margin-left: 20px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>Product Multilingual Search Pro V3</h1>
+    <h2>Version 5.0.0 | Eagle ERP Edition</h2>
+</header>
+
+<nav>
+    <a href="#overview">Overview</a>
+    <a href="#installation">Installation</a>
+    <a href="#configuration">Configuration</a>
+    <a href="#usage">Usage</a>
+    <a href="#cache">Cache</a>
+    <a href="#support">Support</a>
+</nav>
+
+<div class="container">
+
+<div class="section" id="overview">
+<h2>1. Overview</h2>
+<p>An advanced Odoo 18 module enhancing product search by:</p>
+<ul>
+<li>Combining product names in all installed languages</li>
+<li>Multi-word partial search</li>
+<li>Full-text ranking for relevance</li>
+<li>Ultra-fast cache table</li>
+<li>Automatic trigger & cron updates</li>
+<li>Optimized for website & backend search</li>
+</ul>
+</div>
+
+<div class="section" id="installation">
+<h2>2. Installation</h2>
+<ol>
+<li>Copy module ZIP to Odoo addons directory</li>
+<li>Update Apps List → Search → Install</li>
+</ol>
+</div>
+
+<div class="section" id="configuration">
+<h2>3. Configuration</h2>
+<ul>
+<li>Install required languages</li>
+<li>Adjust Scheduled Action for cache refresh</li>
+</ul>
+</div>
+
+<div class="section" id="usage">
+<h2>4. Usage</h2>
+<p><strong>Backend:</strong> Sales → Products → Search in any language.</p>
+<p><strong>Website:</strong> Use shop search. Results ranked by PostgreSQL full-text.</p>
+</div>
+
+<div class="section" id="cache">
+<h2>5. Cache & Data Table</h2>
+<table>
+<tr><th>Column</th><th>Description</th></tr>
+<tr><td>product_id</td><td>Primary Key</td></tr>
+<tr><td>name_search_all</td><td>Combined product names</td></tr>
+<tr><td>name_search_all_lower</td><td>Lowercase fast search</td></tr>
+<tr><td>name_search_tsv</td><td>Full-text ranking vector</td></tr>
+</table>
+</div>
+
+<div class="section" id="support">
+<h2>10. Support & Contact</h2>
+<p>
+📧 Email: <a href="mailto:eagle.erp.com@gmail.com">eagle.erp.com@gmail.com</a><br>
+🌐 Website: <a href="https://www.eagle-erp.com" target="_blank">www.eagle-erp.com</a>
+</p>
+</div>
+
+</div>
+
+<footer>
+© 2026 Eagle ERP. All Rights Reserved. <br>
+Premium Odoo Solutions & Enterprise Automation
+</footer>
+
+</body>
+</html>
