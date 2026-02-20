@@ -9,32 +9,29 @@ class ProductTemplate(models.Model):
         store=True,
         index=True,
     )
+    name_search_all_lower = fields.Char(
+        compute="_compute_name_search_all",
+        store=True,
+        index=True,
+    )
+    name_search_tsv = fields.Text(
+        compute="_compute_name_search_all",
+        store=True,
+        index=True,
+    )
 
     @api.depends('name')
     def _compute_name_search_all(self):
-        """
-        Combine English + Bengali translations of product name
-        into a single stored indexable field.
-        """
+        """Combine product names in all installed languages and compute tsvector"""
+        langs = [lang['code'] for lang in self.env['res.lang'].search([])]
         for record in self:
-            en_name = record.with_context(lang='en_US').name or ''
-            bn_name = record.with_context(lang='bn_BD').name or ''
-
-            # Only include non-empty values
-            parts = [p for p in (en_name, bn_name) if p]
-            record.name_search_all = " ".join(parts)
-
-    def write(self, vals):
-        """
-        Recompute name_search_all when 'name' changes.
-        """
-        # Detect if product name JSON is being updated
-        trigger = 'name' in vals
-
-        result = super().write(vals)
-
-        if trigger:
-            self.invalidate_recordset(['name_search_all'])
-            self.recompute()
-
-        return result
+            names = set()
+            for lang_code in langs:
+                with record.env.cr.savepoint():
+                    names.add(record.with_context(lang=lang_code).name or '')
+            names = [n.strip() for n in names if n.strip()]
+            combined = " ".join(names)
+            record.name_search_all = combined
+            record.name_search_all_lower = combined.lower()
+            # Use simple space-separated words for tsvector
+            record.name_search_tsv = " ".join(combined.split())
