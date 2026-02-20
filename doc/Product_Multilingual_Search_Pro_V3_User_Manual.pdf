@@ -1,0 +1,173 @@
+Product Multilingual Search Pro V3 – User Manual
+1. Overview
+
+Product Multilingual Search Pro V3 is an advanced Odoo 18 module that enhances product search functionality by:
+
+Combining product names in all installed languages.
+
+Supporting multi-word partial search.
+
+Performing full-text ranking for relevance (most relevant products appear first).
+
+Maintaining a cache table for ultra-fast search, even for catalogs with 100k+ products.
+
+Automatically updating the cache via triggers and optional daily cron jobs.
+
+Optimized for website and backend product searches.
+
+2. Installation
+Step 1: Add Module to Odoo
+
+Copy product_multilang_search_pro_v3.zip to your Odoo addons directory.
+
+Extract the ZIP (optional; Odoo can read ZIP directly).
+
+odoo/addons/product_multilang_search_pro_v3/
+Step 2: Update Apps List
+
+Log in as Administrator in Odoo.
+
+Go to Apps → Update Apps List.
+
+Search for Product Multilingual Search Pro V3.
+
+Click Install.
+
+✅ After installation, the module automatically creates the product_search_cache table and adds the necessary triggers.
+
+3. Configuration
+
+No special configuration is required for basic usage.
+
+Optional Configurations:
+
+Installed Languages:
+
+Go to Settings → Translations → Languages.
+
+Make sure all languages you want for product names are installed.
+
+Cron Job Frequency (for large catalogs):
+
+Go to Settings → Technical → Automation → Scheduled Actions.
+
+Look for Refresh Product Search Cache.
+
+Adjust interval (default: every 1 day) or number of calls.
+
+Product Names:
+
+Ensure products have names translated in the installed languages.
+
+Translations can be added via the Translate button on product forms.
+
+4. Usage
+4.1 Backend Product Search
+
+Go to Sales → Products → Products.
+
+Use the search bar to type keywords in any installed language.
+
+Results:
+
+Products are automatically searched across all languages.
+
+Multi-word searches are supported.
+
+Search is case-insensitive and supports partial matches.
+
+4.2 Website Product Search
+
+Go to your Odoo website (Shop page).
+
+Enter product keywords in English, Bengali, or any installed language.
+
+Search results are:
+
+Ranked by relevance using PostgreSQL full-text ranking.
+
+Most relevant products appear first.
+
+Multi-word search supported (e.g., “shirt cotton”).
+
+✅ This ensures Google-like relevance in search results.
+
+5. Data & Cache Table
+
+The module creates a dedicated table: product_search_cache:
+
+Column	Description
+product_id	Product ID (primary key)
+name_search_all	Combined product names from all installed languages
+name_search_all_lower	Lowercase version of name_search_all for fast search
+name_search_tsv	PostgreSQL tsvector for full-text ranking
+
+Indexes:
+
+Trigram index on name_search_all_lower for fast ILIKE searches.
+
+Full-text index on name_search_tsv for relevance ranking.
+
+Automatic Updates:
+
+On product create/update via trigger.
+
+Cron job (daily by default) refreshes the cache for large catalogs.
+
+6. Best Practices
+
+Use proper translations: Ensure each product has a translated name in all active languages.
+
+Batch updates: For catalogs with 100k+ products, adjust the cron frequency and/or run manually via Scheduled Actions.
+
+Optimize PostgreSQL: Ensure pg_trgm extension is installed (the module will attempt to enable it).
+
+Reindex after major updates: After importing many products or changing translations, run the cron job to refresh the cache.
+
+7. Troubleshooting
+Issue	Solution
+Website search doesn’t find some products	Make sure product names have translations for the relevant language. Run the cron to refresh cache.
+Slow search on large catalogs	Ensure trigram index exists and pg_trgm extension is enabled. Run batch refresh cron.
+Relevance order seems off	PostgreSQL full-text ranking uses simple dictionary (simple). Multi-language ranking may vary slightly.
+8. Advanced Usage
+
+Custom Search Queries:
+
+You can query the cache directly:
+
+SELECT product_id, ts_rank(name_search_tsv, plainto_tsquery('simple', 'shirt cotton')) AS rank
+FROM product_search_cache
+WHERE name_search_all_lower ILIKE '%shirt%'
+ORDER BY rank DESC;
+
+Extend to new languages:
+
+Add a new language in Settings → Translations → Languages.
+
+Update product translations.
+
+Run cron to refresh cache.
+
+Modify ranking:
+
+Adjust PostgreSQL ts_rank parameters in website_sale_product.py for different search weighting.
+
+9. Odoo App Store Submission Notes
+
+License: LGPL-3
+
+Author & Website: Set in manifest
+
+Versioning: Semantic versioning (5.0.0)
+
+Screenshots: Include static/description/screenshot1.png
+
+Icon: static/description/icon.png
+
+10. Support & Contact
+
+For support, bug reports, or feature requests:
+
+Email: support@yourcompany.com
+
+Website: https://www.yourcompany.com
